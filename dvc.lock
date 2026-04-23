@@ -1,0 +1,59 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/clickbait_data.csv
+      hash: md5
+      md5: 078021c8d458eb75f32862021a943b5b
+      size: 5805
+    - path: src/preprocess.py
+      hash: md5
+      md5: 67daec03d11434feb3ca656faa45c354
+      size: 1506
+    outs:
+    - path: data/processed_data.csv
+      hash: md5
+      md5: 887ad792d30674821b67a74aaf87a7b4
+      size: 11282
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/clickbait_data.csv
+      hash: md5
+      md5: 078021c8d458eb75f32862021a943b5b
+      size: 5805
+    - path: src/features.py
+      hash: md5
+      md5: bed05156fcfaca29f083178f4079560b
+      size: 3511
+    - path: src/preprocess.py
+      hash: md5
+      md5: 67daec03d11434feb3ca656faa45c354
+      size: 1506
+    - path: src/train.py
+      hash: md5
+      md5: 92f89dbb7c40a559e6bb6d9e32055192
+      size: 5012
+    params:
+      params.yaml:
+        train.C: 1.0
+        train.max_features: 5000
+        train.ngram_range:
+        - 1
+        - 2
+        train.random_state: 42
+        train.test_size: 0.2
+    outs:
+    - path: models/classifier.pkl
+      hash: md5
+      md5: 55359bf56a39c29ac6db8a11c0763564
+      size: 9103
+    - path: models/feature_pipeline.pkl
+      hash: md5
+      md5: f6b5e030a3514680fc879469a1274ec9
+      size: 41310
+    - path: models/metrics.json
+      hash: md5
+      md5: f70e54abe3c25735b5e6d90bc1c1daca
+      size: 137
