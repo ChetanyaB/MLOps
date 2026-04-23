@@ -1,0 +1,11 @@
+# params.yaml — hyperparameters tracked by DVC
+# Modify values here and run `dvc repro` to retrain
+
+train:
+  test_size: 0.2
+  random_state: 42
+  C: 1.0
+  max_iter: 1000
+  solver: lbfgs
+  max_features: 5000
+  ngram_range: [1, 2]

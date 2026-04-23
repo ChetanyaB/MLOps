@@ -1,0 +1,32 @@
+# dvc.yaml — defines the reproducible ML pipeline
+# Run with: dvc repro
+
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/clickbait_data.csv
+    outs:
+      - data/processed_data.csv
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - src/features.py
+      - src/preprocess.py
+      - data/clickbait_data.csv
+    params:
+      - params.yaml:
+          - train.test_size
+          - train.random_state
+          - train.C
+          - train.max_features
+          - train.ngram_range
+    outs:
+      - models/classifier.pkl
+      - models/feature_pipeline.pkl
+    metrics:
+      - models/metrics.json:
+          cache: false
